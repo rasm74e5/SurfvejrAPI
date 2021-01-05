@@ -30,8 +30,10 @@ namespace SurfvejrAPI
             services.AddHttpClient();
             services.AddDbContext<CityDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("CityDB"));
+                //options.UseSqlServer(Configuration.GetConnectionString("CityDB"));
             });
+            //Api'en AddCors virker ikke i øjeblikket
+            //services.AddCors(options => { options.AddDefaultPolicy(builder => builder.WithOrigins("https://surfsup.live/", "https://api.surfsup.live/").AllowAnyHeader().AllowAnyMethod()); });
 
         }
 

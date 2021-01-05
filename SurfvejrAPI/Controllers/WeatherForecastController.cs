@@ -38,7 +38,7 @@ namespace SurfvejrAPI.Controllers
             City city = _db.Cities.Include(x => x.coordinates).FirstOrDefault(x => x.id == id);
             if (city != null)
             {
-                string jsonres = await _factory.CreateClient().GetStringAsync($"https://api.openweathermap.org/data/2.5/onecall?lat={city.coordinates.lat}&lon={city.coordinates.lon}&exclude=minutely,hourly,allerts&units=metric&appid={apiKey}");
+                string jsonres = await _factory.CreateClient().GetStringAsync($"https://api.openweathermap.org/data/2.5/onecall?lat={city.coordinates.lat}&lon={city.coordinates.lon}&appid={apiKey}");
                 WeatherData weather = JsonConvert.DeserializeObject<WeatherData>(jsonres);
 
                 DateTimeOffset dt = DateTimeOffset.UnixEpoch.AddSeconds(weather.current.dt);
@@ -68,7 +68,7 @@ namespace SurfvejrAPI.Controllers
             City city = _db.Cities.Include(x => x.coordinates).FirstOrDefault(x => x.name.ToUpper().Contains(name.ToUpper()));
             if (city != null)
             {
-                string jsonres = await _factory.CreateClient().GetStringAsync($"https://api.openweathermap.org/data/2.5/onecall?lat={city.coordinates.lat}&lon={city.coordinates.lon}&exclude=minutely,hourly,allerts&units=metric&appid={apiKey}");
+                string jsonres = await _factory.CreateClient().GetStringAsync($"https://api.openweathermap.org/data/2.5/onecall?lat={city.coordinates.lat}&lon={city.coordinates.lon}&appid={apiKey}");
                 WeatherData weather = JsonConvert.DeserializeObject<WeatherData>(jsonres);
 
                 DateTimeOffset dt = DateTimeOffset.UnixEpoch.AddSeconds(weather.current.dt);
@@ -89,10 +89,6 @@ namespace SurfvejrAPI.Controllers
             return NotFound();
         }
 
-
-
-        //Security Flaw
-        //Debug tool
         [HttpPost]
         public IActionResult PostWeatherForecast([FromBody] List<City> cities)
         {
